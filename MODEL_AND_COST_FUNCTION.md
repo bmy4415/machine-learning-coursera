@@ -1,0 +1,7 @@
+- Supervised Learning: we are `given right answer` at train time
+- regression: we predict `real-valued output`
+- classification: we predict `discrete-valued output`
+- MSE(Mean Squared Error): frequently used cost function at regression problem
+    - 1/2 in MSE is just scaler
+- hypothesis: our predictor function
+- cost function: what we want to `minimize`
