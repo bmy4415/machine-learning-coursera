@@ -1,0 +1,12 @@
+#### Gradient Descent
+- we want to find parameters that minimize out cost function
+- algorithm to minimize cost function
+    - idea: let's step down to direction driven from derivative of out cost function(partial derivate of each parameter dimension)
+    - regardless of sign of partial derivative, our parameters will move to direction such that will reduce cost function(think of when sign is positive and negative)
+- if initial parameters change, converged local minima will change
+- if cost function reaches local minima, it will not move any more because the derivative is 0
+- learning rate: control step of gradient descent
+- compute gradient and update each parameter `simultaneouly`!!!
+    - do not update parameters before calculating another partial derivative
+- for convex function(ex) MSE on Linear Regression) there exists only one global minimum
+- Batch Gradient Descent: at each step, we consider all examples in train set
