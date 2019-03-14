@@ -1,0 +1,13 @@
+- matrix: 2d array
+- vector: matrix with only 1 column(1d array)
+- cf) tensor: nd array
+- dimension of matrix: (# of row X # of col)
+- matrix is not `commutative` but `associative`
+- square matrix: # of rows and # of columns are same
+- Identity matrix
+    - square matrix such that diagonal values are 1 and others are 0
+    - for all matrix A, AI = IA = A
+- Transpose matrix
+    - change all rows with all columns
+- singular matrix: matrix that does not have inverse matrix
+- when using matrix operation in programming, it can be optimized via parallel processing
