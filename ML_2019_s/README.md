@@ -67,3 +67,37 @@
     - error와는 다른 개념으로 f에 naturally 섞여 있는것
     - 같은 input x에 대해서 다른 결과 y가 나오게함
     - **f는 determinstic이 아니라 probabilistic함!**
+
+# 03. linear_class_regress
+- linear problems
+    - classification: predict discrete value
+    - regression: predict continuous value
+    - logistic regression
+        - regression에서 알 수 있듯이 continuous한 value를 예측, 다만 이 value는 0~1사이 값을 갖는 확률값임
+        - 즉 확률예측(probability estimation)
+        - Neural Network에서의 neuron
+    - data가 linearly seperable한 경우(선으로 region이 나누는 경우): linear classification 가능
+    - data가 linearly seperable하지 않은 경우(선으로 region이 나뉘지 않는 경우): non-linear transformation 후 linear classification 적용
+- linear classification
+    - linear model을 이용하여 주어진 data를 classify하는 task
+    - 편의를 위해 binary classification이라고 가정하면
+    - hypothesis: ![equation](https://latex.codecogs.com/gif.latex?h%28x%29%3Dsign%28w%5E%7B%20T%20%7Dx%29)
+    - 즉 ![equation](https://latex.codecogs.com/gif.latex?w%5E%7B%20T%20%7Dx)(signal 이라고도 함)가 0보다 크거나 같으면 1, 작으면 0으로 판단
+    - pocket algorithm: 매번 `모든 train data`를 이용하여 in-sample error를 구하고 가장 error가 작을때의 weight을 저장해 놓는 알고리즘
+- linear regression
+    - 주어진 data에 가장 fit하는(==sample error를 minimize하는) line(다차원의 경우 hyper-plane)을 정하는 일
+    - iterative한 과정으로 optimal을 찾지 않고 직접 close form solution을 이용할 수 있음
+        - 예를들어 입력이 1차원일 때, MSE는 parameter에 대한 2차방정식이고 이는 grad=0인 지점을 한방에 수식으로 찾을 수 있음
+    - regression
+        - 주어진 x, y에 대해서 x, y사이의 관계를 찾는 통계학적인 방법
+        - 우리의 주어진 x, y에 대해서 ![equation](https://latex.codecogs.com/gif.latex?h%28x%29%3D%7B%20w%20%7D%5E%7B%20T%20%7Dx&plus;b)로 정의하고 ![equation](https://latex.codecogs.com/gif.latex?%5Csum%20_%7B%20i%20%7D%5E%7B%20N%20%7D%7B%20%7B%20%28%7B%20y%20%7D_%7B%20i%20%7D-h%28%7B%20x%20%7D_%7B%20i%20%7D%29%29%20%7D%5E%7B%202%20%7D%20%7D)을 최소로하면 w와 b를 찾으면 됨
+        - 위의 식을 최소화하는데에는 2가지 방법이 있음
+            - gradient descent(iterative한 방법)
+                - 매 iteration마다 현재 지점에서 gradient를 구하고 그 반대방향으로 step을 이동하는 방법
+            - closed-form solution
+                - 위의 식은 w에 대한 2차 방적식으로 볼 수 있음 => 최소값을 explicit하게 구할 수 있음
+                - ![equation](https://latex.codecogs.com/gif.latex?xw%3Dy%2C%7B%20%5Cquad%20x%20%7D%5E%7B%20T%20%7Dxw%3D%7B%20x%20%7D%5E%7B%20T%20%7Dy%2C%5Cquad%20%7B%20x%20%7D%5E%7B%20&plus;%20%7D%3D%7B%20%28%7B%20x%20%7D%5E%7B%20T%20%7Dx%29%20%7D%5E%7B%20-1%20%7D%7B%20x%20%7D%5E%7B%20T%20%7D%2C%5Cquad%20w%3D%7B%20x%20%7D%5E%7B%20&plus;%20%7Dy)
+                - ![equation](https://latex.codecogs.com/gif.latex?%7B%20x%20%7D%5E%7B%20&plus;%20%7D%3D%7B%20%28%7B%20x%20%7D%5E%7B%20T%20%7Dx%29%20%7D%5E%7B%20-1%20%7D%7B%20x%20%7D%5E%7B%20T%20%7D)을 X의 `pesudo-inverse`라고 함
+                    - X가 (m,n)(m!=n)이어서 X의 inverse를 직접 구할 수 없을 때, 간접적으로 x의 inverse를 구하는 방법
+                - ![equation](https://latex.codecogs.com/gif.latex?%7B%20%7B%20x%20%7D%5E%7B%20T%20%7Dx%20%7D)이 invertible(역행렬존재)하면 pesudo-inverse를 통해 한번에 w를 계산할 수 있음
+                - ![equation](https://latex.codecogs.com/gif.latex?%7B%20%7B%20x%20%7D%5E%7B%20T%20%7Dx%20%7D)이 singular(역행렬이 존재하지 않음)이면 수학적으로 근사한 pesudo-inverse를 이용해서 w를 한번에 계산할 수 있음(matrix inverse 말고 다른 방법을 이용하여 pesudo-inverse를 구하는 방법이 있음)
