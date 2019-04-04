@@ -101,3 +101,55 @@
                     - X가 (m,n)(m!=n)이어서 X의 inverse를 직접 구할 수 없을 때, 간접적으로 x의 inverse를 구하는 방법
                 - ![equation](https://latex.codecogs.com/gif.latex?%7B%20%7B%20x%20%7D%5E%7B%20T%20%7Dx%20%7D)이 invertible(역행렬존재)하면 pesudo-inverse를 통해 한번에 w를 계산할 수 있음
                 - ![equation](https://latex.codecogs.com/gif.latex?%7B%20%7B%20x%20%7D%5E%7B%20T%20%7Dx%20%7D)이 singular(역행렬이 존재하지 않음)이면 수학적으로 근사한 pesudo-inverse를 이용해서 w를 한번에 계산할 수 있음(matrix inverse 말고 다른 방법을 이용하여 pesudo-inverse를 구하는 방법이 있음)
+
+# 04. logistic_regression
+- logistic regression
+    - linear regression + sigmoid function
+        - <img src='./imgs/equation_1.png'>
+        - <img src='./imgs/equation_2.png'>, <img src='./imgs/equation_4.png'>
+    - output: real(regression) but bounded(sigmoid)
+    - classification의 경우 output이 discrete value(0, 1, ...)로 나와야 하는데 logistic regression을 이용할 경우 output을 각 label에 대한 확률 값으로 해석할 수 있음
+- error function of logistic regression
+    - MSE(Mean Squared Error) 대신 XE(Cross Entropy Error) 이용
+        - <img src='./imgs/equation_3.png'>
+        - 두 분포가 얼마나 다른지를 측정하는 방법
+        - XE가 MSE 보다 optimization에 좋음(XE는 convex function 이므로)
+        - likelihood와 관련한 확률적 해석에 용이함
+            - likelihood를 구하는 식과 동일함
+        - 정답에서 벗어나는 경우에 대해 MSE 보다 크게 penalize함
+            - 예를들어 정답이 1이고 예측 값(예측 확률)이 0.5인 경우
+                - MSE => (1-0.5)^2 = 0.25
+                - XE => -1*log(0.5) = 0.3
+- gradient descent
+    - 1차 미분계수(gradient)를 이용하여 minima를 찾는 방법
+    - local minima 밖에 찾을 수 없음
+        - global minima를 찾기위해 2차 미분계수를 이용할 수 있지만 cost 때문에 잘 사용하지 않음
+    - `initial location이 매우 중요하고 initial locaion 근처의 local minima에서 멈춤, 다만 deep learning의 경우 차원이 매우 많기 때문에 local minima도 의미가 있음`
+    - `error는 x(input)와 w의 함수로 볼 수 있고 error를 minimize하게 위해 gradient descent를 이용하여 w의 값을 iteratively 변경할 수 있음`
+    - w의 변경 방향과 크기
+        - 방향
+            - first order derivative(1차 미분계수)는 해당 function이 가장 급격하게 증가하는 방향을 알려줌 => gradient의 반대 방향으로 이동하면 function이 가장 급격하게 감소하는 방향
+        - 크기(step size)
+            - 잘못된 step size는 오히려 발산으로 이어짐
+                - <img src='./imgs/image_1.png' width=200>
+            - 처음에는 크게하고 점차 줄이는 것이 좋음
+                - intuition example: Rome 여행지 -> Seoul 집을 이동할 때, 비행기(Rome공항 -> Seoul공항), 버스(Seoul공항 -> 집 버스정류장), 걷기(집 버스정류장->집) 순으로 이동하는 것이 좋음
+            - decaying learning rate
+                - iteration step에 따라 learning rate(==step size의 계수)를 줄이는 방법
+            - gradient 자체를 이용하는 방법
+                - minima에 가까워질수록 gradient 값도 감소함 => step size를 줄이는 효과가 있음
+                - <img src='./imgs/equation_5.png'>
+        - stop condition
+            - 언제 iteration을 멈출지 정하는 것은 매우 어려운 issue임
+            - 보통 몇번의 iteration마다 validation accuracy를 측정해서 validation accuracy가 가장 낮은 시점에서 멈추는 방법을 사용
+
+
+## MISC
+- likelihood에 관한 정리
+    - probability: 주어진 확률 분포에서 어떤 관측값이 일어날 확률(given: distribution)
+    - likelihood: 주어진 관측값이 있을 때 해당 확률분포로 부터의 관측값일 확률(given: observation)
+    - ML task에서 우리는 주어진 관측값이 있고 그 관측값을 바탕으로 전체 data에 대한 확률분포를 예측함 -> model의 parameter가 확률분포를 나타낸다고 해석할 수 있음
+    - 주어진 관측값이 parameter로 표현되는 확률분포를 따를 확률을 likelihood라고 하고 이것을 maximize 하는 parameter를 찾는 것이 ML의 목표 -> MAXIMUM LIKELIHOOD ESTIMATION을 수행함
+    - 주어진 관측값 ![equation](https://latex.codecogs.com/gif.latex?%7B%20x%20%7D_%7B%20i%20%7D)이 IID(Independent and Identically Distributed), 즉 각각의 관측값이 독립적이며 똑같은 분포로 부터의 sample이라면 likelihood는 다음과 같이 계산할 수 있음 => ![equation](https://latex.codecogs.com/gif.latex?Likelihood%28%5Ctheta%20%29%3D%5Cprod%20_%7B%20i%3D1%20%7D%5E%7B%20n%20%7D%7B%20%7B%20f%20%7D_%7B%20%5Ctheta%20%7D%28%7B%20x%20%7D_%7B%20i%20%7D%29%20%7D)
+    - Likelihood를 maximize하는 ![equation](https://latex.codecogs.com/gif.latex?%5Ctheta)를 구하는 것은 Log(Likelihood)를 maximize하는 것과 같음(log 함수는 monotonically increasing 이므로) => Log Likelihood ![equation](https://latex.codecogs.com/gif.latex?Log%28Likelihood%28%5Ctheta%20%29%29%3DLog%28%5Cprod%20_%7B%20i%3D1%20%7D%5E%7B%20n%20%7D%7B%20%7B%20f%20%7D_%7B%20%5Ctheta%20%7D%28%7B%20x%20%7D_%7B%20i%20%7D%29%20%7D%20%29%3D%5Csum%20_%7B%20i%3D1%20%7D%5E%7B%20n%20%7D%7B%20log%7B%20f%20%7D_%7B%20%5Ctheta%20%7D%28%7B%20x%20%7D_%7B%20i%20%7D%29%20%7D)
+    - Log Likelihood를 maximize 하는 것은 Negative Log Likelihood를 minimize하는 것과 같음
