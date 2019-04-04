@@ -150,6 +150,6 @@
     - likelihood: 주어진 관측값이 있을 때 해당 확률분포로 부터의 관측값일 확률(given: observation)
     - ML task에서 우리는 주어진 관측값이 있고 그 관측값을 바탕으로 전체 data에 대한 확률분포를 예측함 -> model의 parameter가 확률분포를 나타낸다고 해석할 수 있음
     - 주어진 관측값이 parameter로 표현되는 확률분포를 따를 확률을 likelihood라고 하고 이것을 maximize 하는 parameter를 찾는 것이 ML의 목표 -> MAXIMUM LIKELIHOOD ESTIMATION을 수행함
-    - 주어진 관측값 ![equation](https://latex.codecogs.com/gif.latex?%7B%20x%20%7D_%7B%20i%20%7D)이 IID(Independent and Identically Distributed), 즉 각각의 관측값이 독립적이며 똑같은 분포로 부터의 sample이라면 likelihood는 다음과 같이 계산할 수 있음 => ![equation](https://latex.codecogs.com/gif.latex?Likelihood%28%5Ctheta%20%29%3D%5Cprod%20_%7B%20i%3D1%20%7D%5E%7B%20n%20%7D%7B%20%7B%20f%20%7D_%7B%20%5Ctheta%20%7D%28%7B%20x%20%7D_%7B%20i%20%7D%29%20%7D)
-    - Likelihood를 maximize하는 ![equation](https://latex.codecogs.com/gif.latex?%5Ctheta)를 구하는 것은 Log(Likelihood)를 maximize하는 것과 같음(log 함수는 monotonically increasing 이므로) => Log Likelihood ![equation](https://latex.codecogs.com/gif.latex?Log%28Likelihood%28%5Ctheta%20%29%29%3DLog%28%5Cprod%20_%7B%20i%3D1%20%7D%5E%7B%20n%20%7D%7B%20%7B%20f%20%7D_%7B%20%5Ctheta%20%7D%28%7B%20x%20%7D_%7B%20i%20%7D%29%20%7D%20%29%3D%5Csum%20_%7B%20i%3D1%20%7D%5E%7B%20n%20%7D%7B%20log%7B%20f%20%7D_%7B%20%5Ctheta%20%7D%28%7B%20x%20%7D_%7B%20i%20%7D%29%20%7D)
+    - 주어진 관측값 <img src='./imgs/equation_6.png'>이 IID(Independent and Identically Distributed), 즉 각각의 관측값이 독립적이며 똑같은 분포로 부터의 sample이라면 likelihood는 다음과 같이 계산할 수 있음 => <img src='./imgs/equation_7.png'>
+    - Likelihood를 maximize하는 <img src='./imgs/equation_8.png'>를 구하는 것은 Log(Likelihood)를 maximize하는 것과 같음(log 함수는 monotonically increasing 이므로) => Log Likelihood <img src='./imgs/equation_9.png'>
     - Log Likelihood를 maximize 하는 것은 Negative Log Likelihood를 minimize하는 것과 같음
